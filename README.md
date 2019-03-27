@@ -1,4 +1,4 @@
 #Engenharia de Software I
-## Trabalho-Damas Chinesas
+## Trabalho-Dama Chinesa
 ### UFSC - INE5417 - 2019.1
 #### Developed by [@lucaswodtke](https://github.com/lucaswodtke).
