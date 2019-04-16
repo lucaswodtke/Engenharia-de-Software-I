@@ -2,6 +2,8 @@ package damasChinesas;
 
 import java.awt.*;
 
+import javax.swing.WindowConstants;
+
 public class Tela extends TelaAbstrato {
 
 	public Tela() {
@@ -16,7 +18,8 @@ public class Tela extends TelaAbstrato {
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
-
+		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		window.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		novoJogo();
 	}
 
