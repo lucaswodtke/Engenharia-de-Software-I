@@ -1,8 +1,6 @@
 package damasChinesas;
 
-import java.io.Serializable;
-
-public class Campo implements Serializable {
+public class Campo {
 
 	protected Peca peca;
 	protected boolean disponivel;

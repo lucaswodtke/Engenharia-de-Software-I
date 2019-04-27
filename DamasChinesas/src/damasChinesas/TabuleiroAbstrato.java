@@ -1,10 +1,9 @@
 package damasChinesas;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 
-public abstract class TabuleiroAbstrato extends Observable implements Serializable {
+public abstract class TabuleiroAbstrato extends Observable {
 
     protected ArrayList<Jogador> listaJogadores;
 
