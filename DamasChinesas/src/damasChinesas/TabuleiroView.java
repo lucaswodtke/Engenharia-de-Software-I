@@ -53,10 +53,10 @@ public class TabuleiroView extends TelaAbstrato implements Observer {
 				if (tabuleiro.getPosicoes()[x][y].getPeca() != null) {
 					switch (tabuleiro.getListaJogadores().indexOf(tabuleiro.getPosicoes()[x][y].getPeca().getDono())) {
 					case 0:
-						imagemPecaJogadores = construirImagemPeca("imagens/pecaAzul.png");
+						imagemPecaJogadores = construirImagemPeca("imagens/pecaVermelha.png");
 						break;
 					case 1:
-						imagemPecaJogadores = construirImagemPeca("imagens/pecaVermelha.png");
+						imagemPecaJogadores = construirImagemPeca("imagens/pecaAzul.png");
 						break;
 					default:
 						imagemPecaJogadores = construirImagemPeca("imagens/casaVazia.png");

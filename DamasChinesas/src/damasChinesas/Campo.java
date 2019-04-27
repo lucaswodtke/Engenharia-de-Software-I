@@ -26,8 +26,8 @@ public class Campo implements Serializable {
         return x + "," + y;
     }
 
-    void setPeca(Peca piece) {
-        this.peca = piece;
+    void setPeca(Peca peca) {
+        this.peca = peca;
     }
 
     public int getX() {
