@@ -1,8 +1,6 @@
 package damasChinesas;
 
-import java.io.Serializable;
-
-public class Jogador implements Serializable {
+public class Jogador {
 
     protected String nome;
 

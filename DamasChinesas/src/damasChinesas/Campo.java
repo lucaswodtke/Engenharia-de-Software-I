@@ -1,8 +1,6 @@
 package damasChinesas;
 
-import java.io.Serializable;
-
-public class Campo implements Serializable {
+public class Campo {
 
 	protected Peca peca;
 	protected boolean disponivel;
@@ -26,8 +24,8 @@ public class Campo implements Serializable {
         return x + "," + y;
     }
 
-    void setPeca(Peca piece) {
-        this.peca = piece;
+    void setPeca(Peca peca) {
+        this.peca = peca;
     }
 
     public int getX() {

@@ -7,7 +7,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
-
 public class TelaView extends TelaAbstrato {
 	
 	protected TabuleiroView tabuleiroView;
