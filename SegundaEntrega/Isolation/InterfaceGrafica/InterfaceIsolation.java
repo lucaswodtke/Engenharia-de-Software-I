@@ -103,11 +103,15 @@ public class InterfaceIsolation extends JFrame {
 				
 				JLabel posicao = new JLabel();
 				posicao.setBounds(new Rectangle(largura, altura, 27, 27));
-				posicao.addMouseListener(new java.awt.event.MouseAdapter() {
-					public void mouseClicked(java.awt.event.MouseEvent evento) {
-						JOptionPane.showMessageDialog(null, "Posição X = " + evento.getX() + "\n" + "Posição Y = " + evento.getY());
-					}
-				});
+				
+				// Adicioba a função de clique, caso seja uma posição válida do tabuleiro 
+				if (posicaoJogador[x][y] == 1) {
+					posicao.addMouseListener(new java.awt.event.MouseAdapter() {
+						public void mouseClicked(java.awt.event.MouseEvent evento) {	
+							desenhaSelecionado(jContentPane, posicao);
+						}
+					});
+				}
 				
 				Icon imagemPeca;
 				switch (posicaoJogador[x][y]) {
@@ -298,7 +302,6 @@ public class InterfaceIsolation extends JFrame {
 	}
 
 	/**
-	 * 
 	 * @param estado
 	 */
 	public void atualizar(ImagemTabuleiro estado) {
@@ -324,6 +327,20 @@ public class InterfaceIsolation extends JFrame {
 		};
 	}
 	
+	/**
+	 * Desenha a peça selecionada
+	 */
+	protected void desenhaSelecionado(JPanel jContentPane, JLabel posicao) {
+		Icon imagemPeca = new ImageIcon(getClass().getResource("pecaSelecionada.png"));
+		posicao.setIcon(imagemPeca);
+		
+		jContentPane.setLayout(null);
+		jContentPane.add(posicao, null);
+	}
+	
+	/**
+	 * Define a posição incial dos dois jogadores
+	 */
 	public void getPosicaoJogador() {
 		// Posição inicial jogador 1
 		posicaoJogador[0][6] = 1;
