@@ -3,6 +3,8 @@ package InterfaceGrafica;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -15,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import DominioDoProblema.ImagemTabuleiro;
+import DominioDoProblema.Posicao;
+import DominioDoProblema.Tabuleiro;
 import InterfaceGrafica.AtorJogador;
 
 public class InterfaceIsolation extends JFrame {
@@ -22,14 +26,22 @@ public class InterfaceIsolation extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	protected AtorJogador jogo;
+	protected Tabuleiro tabuleiro = new Tabuleiro();
+	protected Posicao posicao = new Posicao();
 	
 	protected JLabel mapaVPosicao[][] = new JLabel[17][13];
-	protected int posicaoJogador[][] = new int[17][13];
+	
+	protected int mapaPosicao[][] = new int[17][13];
+	protected boolean iniciado = false;
 	
 	protected int valorInicialX = 170;
 	protected int valorInicialY = 75;
 	protected int alturaPeca = 27;
 	protected int larguraPeca = 27;
+	
+	protected boolean clicado = false;
+	protected JLabel posicaoSelecionada[] = new JLabel[2];
+	protected Icon imagemPecaSelecionada = new ImageIcon();
 	
 	protected boolean emRede = false;
 	private JLabel vMensagem = null;
@@ -64,94 +76,115 @@ public class InterfaceIsolation extends JFrame {
 		jogo = new AtorJogador(this);
 	}
 	
+	private JPanel jContentPane = null;
+	
 	private JPanel getJContentPane() {
-		int[][] ordem = {
-                {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-                {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}
-        };
-		
-		int largura = this.valorInicialX;
-		int altura = this.valorInicialY;
-		boolean par = true;
-		
-		JPanel jContentPane = new JPanel();
-		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.add(getMenu());
-	    this.setJMenuBar(menuBar);
-		
-		// Inicializa a posição dos jogadores
-		this.getPosicaoJogador();
-		
-		for(int x = 0; x < 17; x++){
-				for(int y = 0; y < 13; y++){
-				
-				JLabel posicao = new JLabel();
-				posicao.setBounds(new Rectangle(largura, altura, 27, 27));
-				
-				// Adicioba a função de clique, caso seja uma posição válida do tabuleiro 
-				if (posicaoJogador[x][y] == 1) {
-					posicao.addMouseListener(new java.awt.event.MouseAdapter() {
-						public void mouseClicked(java.awt.event.MouseEvent evento) {	
-							desenhaSelecionado(jContentPane, posicao);
-						}
-					});
-				}
-				
-				Icon imagemPeca;
-				switch (posicaoJogador[x][y]) {
-				case 1:
-					imagemPeca = new ImageIcon(getClass().getResource("pecaVermelha.png"));
-					break;
-				case 2:
-					imagemPeca = new ImageIcon(getClass().getResource("pecaAzul.png"));
-					break;
-				default:
-					imagemPeca = new ImageIcon(getClass().getResource("casaVazia.png"));
-					break;
-				}
-				
-				if (ordem[x][y] == 1) {
-					posicao.setIcon(imagemPeca);
-				} else {
-					posicao.setIcon(null);
-				}
-				
-				jContentPane.setLayout(null);
-				jContentPane.add(posicao, null);
-				
-				mapaVPosicao[x][y] = posicao;
-				largura += larguraPeca;
-			}
-
-			altura += alturaPeca;
-			largura = valorInicialX;
+		if(jContentPane == null) {
 			
-			if (par) {
-				largura += (larguraPeca / 2);
-				par = false;
-			} else {
-				par = true;
+			jContentPane = new JPanel();
+			
+			int[][] ordem = tabuleiro.getPorcaoAtivaTabuleiro();
+			
+			int largura = this.valorInicialX;
+			int altura = this.valorInicialY;
+			boolean par = true;
+			
+			JMenuBar menuBar = new JMenuBar();
+			menuBar.add(getMenu());
+		    this.setJMenuBar(menuBar);
+			
+			// Inicializa a posição das peças
+		    int[][] posicaoInicialPeca = posicao.getPosicaoInicialPecas();
+			
+			for(int x = 0; x < 17; x++){
+					for(int y = 0; y < 13; y++){
+					
+					JLabel posicao = new JLabel();
+					posicao.setBounds(new Rectangle(largura, altura, 27, 27));
+					
+					int peca;
+					
+					Icon imagemPeca;
+					switch (posicaoInicialPeca[x][y]) {
+					case 1:
+						imagemPeca = new ImageIcon(getClass().getResource("pecaVermelha.png"));
+						peca = 1;
+						break;
+					case 2:
+						imagemPeca = new ImageIcon(getClass().getResource("pecaAzul.png"));
+						peca = 2;
+						break;
+					default:
+						imagemPeca = new ImageIcon(getClass().getResource("casaVazia.png"));
+						peca = 0;
+						break;
+					}
+					
+					if (ordem[x][y] == 1) {
+						posicao.setIcon(imagemPeca);
+					} else {
+						posicao.setIcon(null);
+					}
+					
+					jContentPane.setLayout(null);
+					jContentPane.add(posicao, null);
+					
+					mapaVPosicao[x][y] = posicao;
+					largura += larguraPeca;
+					
+					// Adiciona a função de clique, caso seja uma posição válida do tabuleiro 
+					if (ordem[x][y] == 1) {
+						int posX = x;
+						int posY = y;
+						posicao.addMouseListener(new java.awt.event.MouseAdapter() {
+							public void mouseClicked(java.awt.event.MouseEvent evento) {
+								
+								if (clicado == false) {
+									clicado = true;
+	
+									pecas[0] = peca;
+									
+									posicoes[0] = posX;
+									posicoes[1] = posY;
+									
+									posicaoSelecionada[0] = posicao;
+									imagemPecaSelecionada = imagemPeca;
+								} else {
+									clicado = false;
+									
+									pecas[1] = peca;
+									
+									posicaoSelecionada[1] = posicao;		
+						
+									desenhaSelecionado(jContentPane, posicaoSelecionada, imagemPecaSelecionada);
+									posicao.setIcon(imagemPecaSelecionada);
+									
+									mapaPosicao[posX][posY] = pecas[0];
+									mapaPosicao[posicoes[0]][posicoes[1]] = pecas[1];
+									
+									getJContentPane();
+								}
+							}
+						});
+					}
+				}
+	
+				altura += alturaPeca;
+				largura = valorInicialX;
+				
+				if (par) {
+					largura += (larguraPeca / 2);
+					par = false;
+				} else {
+					par = true;
+				}
 			}
 		}
-			
 		return jContentPane;
 	}
+	
+	int pecas[] = new int[2];
+	int posicoes[] = new int[2];
 	
 	private JMenu getMenu() {
 		JMenu menu = new JMenu();
@@ -292,13 +325,14 @@ public class InterfaceIsolation extends JFrame {
 	 * @param coluna
 	 */
 	public void click(int linha, int coluna) {
-		int resultado = 0;
-		resultado = jogo.click(linha, coluna);
-		if ((resultado == 10) || (resultado == 9)){
-			this.exibirEstado();
-		}else{
-			this.notificarResultado(resultado);
-		}
+//		int resultado = 0;
+//		resultado = jogo.click(linha, coluna);
+//		if ((resultado == 10) || (resultado == 9)){
+//			this.exibirEstado();
+//		}else{
+//			this.notificarResultado(resultado);
+//		}
+		this.exibirEstado();
 	}
 
 	/**
@@ -306,22 +340,24 @@ public class InterfaceIsolation extends JFrame {
 	 */
 	public void atualizar(ImagemTabuleiro estado) {
 		int valor = 0;
-		Icon branca = new ImageIcon(getClass().getResource("branca.jpg"));
-		Icon preta = new ImageIcon(getClass().getResource("preta.jpg"));
-		Icon vazia = new ImageIcon(getClass().getResource("vazia.jpg"));
-		Icon bloqueada = new ImageIcon(getClass().getResource("bloqueada.jpg"));
-		vMensagem.setText(estado.informarMensagem());
-		for (int linha=0; linha<7; linha++){
-			for (int coluna=0; coluna<7; coluna++){
+		Icon pecaVermelha = new ImageIcon(getClass().getResource("pecaVermelha.png"));
+		Icon pecaAzul = new ImageIcon(getClass().getResource("pecaAzul.png"));
+		Icon casaVazia = new ImageIcon(getClass().getResource("casaVazia.png"));
+		
+//		vMensagem.setText(estado.informarMensagem());
+		
+		for (int linha=0; linha < 17; linha++){
+			for (int coluna=0; coluna < 13; coluna++){
 				valor = estado.informarValor(linha, coluna);
 				switch (valor){
-				case 0: mapaVPosicao[linha][coluna].setIcon(vazia);
-				break;
-				case 1: mapaVPosicao[linha][coluna].setIcon(branca);
-				break;
-				case 2: mapaVPosicao[linha][coluna].setIcon(preta);
-				break;
-				case 3: mapaVPosicao[linha][coluna].setIcon(bloqueada);
+					case 1:
+						mapaVPosicao[linha][coluna].setIcon(pecaVermelha);
+					break;
+					case 2:
+						mapaVPosicao[linha][coluna].setIcon(pecaAzul);
+					break;
+					default:
+						mapaVPosicao[linha][coluna].setIcon(casaVazia);
 				}
 			};
 		};
@@ -339,31 +375,15 @@ public class InterfaceIsolation extends JFrame {
 	}
 	
 	/**
-	 * Define a posição incial dos dois jogadores
+	 * Desenha a peça selecionada
 	 */
-	public void getPosicaoJogador() {
-		// Posição inicial jogador 1
-		posicaoJogador[0][6] = 1;
-		posicaoJogador[1][5] = 1;
-		posicaoJogador[1][6] = 1;
-		posicaoJogador[2][5] = 1;
-		posicaoJogador[2][6] = 1;
-		posicaoJogador[2][7] = 1;
-		posicaoJogador[3][4] = 1;
-		posicaoJogador[3][5] = 1;
-		posicaoJogador[3][6] = 1;
-		posicaoJogador[3][7] = 1;
+	protected void desenhaSelecionado(JPanel jContentPane, JLabel[] posicaoSelecionada, Icon imagemPecaSelecionada) {
+		Icon casaVazia = new ImageIcon(getClass().getResource("casaVazia.png"));
+		posicaoSelecionada[0].setIcon(casaVazia);
+		posicaoSelecionada[1].setIcon(imagemPecaSelecionada);
 
-		// Posição inicial jogador 2
-		posicaoJogador[16][6] = 2;
-		posicaoJogador[15][5] = 2;
-		posicaoJogador[15][6] = 2;
-		posicaoJogador[14][5] = 2;
-		posicaoJogador[14][6] = 2;
-		posicaoJogador[14][7] = 2;
-		posicaoJogador[13][4] = 2;
-		posicaoJogador[13][5] = 2;
-		posicaoJogador[13][6] = 2;
-		posicaoJogador[13][7] = 2;
+		jContentPane.setLayout(null);
+		jContentPane.add(posicaoSelecionada[0], null);
+		jContentPane.add(posicaoSelecionada[1], null);
 	}
 }

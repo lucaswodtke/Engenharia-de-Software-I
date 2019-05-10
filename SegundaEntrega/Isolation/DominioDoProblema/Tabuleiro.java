@@ -4,16 +4,16 @@ public class Tabuleiro {
 
 	protected Jogador jogador1;
 	protected Jogador jogador2;
-	protected Posicao posicoes[][]=new Posicao[7][7];
+	protected Posicao posicoes[][] = new Posicao[17][13];
+	
 	protected boolean conectado;
 	protected boolean partidaEmAndamento;
-
+	
 	public boolean informarConectado() {
 		return conectado;
 	}
 
 	/**
-	 * 
 	 * @param valor
 	 */
 	public void estabelecerConectado(boolean valor) {
@@ -25,8 +25,8 @@ public class Tabuleiro {
 	}
 
 	public void esvaziar() {
-		for (int i = 0; i < 7; i++) {
-			for(int n=0; n<7; n++) {
+		for (int i = 0; i < 17; i++) {
+			for(int n=0; n < 13; n++) {
 				posicoes[i][n].esvaziar();
 			}
 		}
@@ -36,7 +36,6 @@ public class Tabuleiro {
 	}
 
 	/**
-	 * 
 	 * @param idJogador
 	 */
 	public void criarJogador(String idJogador) {
@@ -52,7 +51,6 @@ public class Tabuleiro {
 	}
 
 	/**
-	 * 
 	 * @param posicao
 	 */
 	public void habilitar(Integer posicao) {
@@ -71,7 +69,6 @@ public class Tabuleiro {
 	}
 
 	/**
-	 * 
 	 * @param jog1
 	 * @param jog2
 	 */
@@ -87,7 +84,6 @@ public class Tabuleiro {
 	}
 
 	/**
-	 * 
 	 * @param linha
 	 * @param coluna
 	 */
@@ -104,7 +100,6 @@ public class Tabuleiro {
 	}
 
 	/**
-	 * 
 	 * @param linha
 	 * @param coluna
 	 */
@@ -116,7 +111,6 @@ public class Tabuleiro {
 	}
 
 	/**
-	 * 
 	 * @param lance
 	 */
 	public void receberJogada(Lance lance) {
@@ -133,7 +127,6 @@ public class Tabuleiro {
 	}
 
 	/**
-	 * 
 	 * @param linha
 	 * @param coluna
 	 * @param jog
@@ -197,7 +190,6 @@ public class Tabuleiro {
 	}
 
 	/**
-	 * 
 	 * @param posicao
 	 */
 	public boolean verificarPerdeu(Posicao posicao) {
@@ -235,53 +227,53 @@ public class Tabuleiro {
 	}
 
 	public ImagemTabuleiro informarEstado() {
-		ImagemTabuleiro retorno=new ImagemTabuleiro();
+		ImagemTabuleiro retorno = new ImagemTabuleiro();
 		String mensagem;
-		if(partidaEmAndamento) {
-			boolean vez;
-			vez=jogador1.informarDaVez();
-			if(vez) {
-				int fase=jogador1.verificarFase();
-				if(fase==1) {
-					int peca=jogador1.informarSimbolo();
-					String cor;
-					if(peca==1) {
-						cor= "Branca";
-					}else {
-						cor="Preta";
-					}
-					mensagem="Vez do jogador "+jogador1.informarNome()+" movimentar a peça "+cor;
-				}else {
-					mensagem="Vez do jogador "+jogador1.informarNome()+" bloquear uma posição";
-				}
-			}else {
-				int fase=jogador2.verificarFase();
-				if(fase==1) {
-					int peca=jogador2.informarSimbolo();
-					String cor;
-					if(peca==1) {
-						cor= "Branca";
-					}else {
-						cor="Preta";
-					}
-					mensagem="Vez do jogador "+jogador2.informarNome()+" movimentar a peça "+cor;
-				}else {
-					mensagem="Vez do jogador "+jogador2.informarNome()+" bloquear uma posição";
-				}
-			}
-			
-		}else {
-			boolean vencedor=jogador1.informarVencedor();
-			if(vencedor) {
-				mensagem= "VENCEDOR: "+jogador1.informarNome();
-			}else {
-				mensagem= "VENCEDOR: "+jogador2.informarNome();
-			}
-		}
-		retorno.assumirMensagem(mensagem);
+//		if(partidaEmAndamento) {
+//			boolean vez;
+//			vez=jogador1.informarDaVez();
+//			if(vez) {
+//				int fase=jogador1.verificarFase();
+//				if(fase==1) {
+//					int peca=jogador1.informarSimbolo();
+//					String cor;
+//					if(peca==1) {
+//						cor= "Branca";
+//					}else {
+//						cor="Preta";
+//					}
+//					mensagem="Vez do jogador "+jogador1.informarNome()+" movimentar a peÃ§a "+cor;
+//				}else {
+//					mensagem="Vez do jogador "+jogador1.informarNome()+" bloquear uma posiÃ§Ã£o";
+//				}
+//			}else {
+//				int fase=jogador2.verificarFase();
+//				if(fase==1) {
+//					int peca=jogador2.informarSimbolo();
+//					String cor;
+//					if(peca==1) {
+//						cor= "Branca";
+//					}else {
+//						cor="Preta";
+//					}
+//					mensagem="Vez do jogador "+jogador2.informarNome()+" movimentar a peÃ§a "+cor;
+//				}else {
+//					mensagem="Vez do jogador "+jogador2.informarNome()+" bloquear uma posiÃ§Ã£o";
+//				}
+//			}
+//			
+//		}else {
+//			boolean vencedor=jogador1.informarVencedor();
+//			if(vencedor) {
+//				mensagem= "VENCEDOR: "+jogador1.informarNome();
+//			}else {
+//				mensagem= "VENCEDOR: "+jogador2.informarNome();
+//			}
+//		}
+//		retorno.assumirMensagem(mensagem);
 		
-		for(int linha=0;linha<7;linha++) {
-			for(int coluna=0;coluna<7;coluna++) {
+		for(int linha=0;linha < 17;linha++) {
+			for(int coluna=0;coluna < 13;coluna++) {
 				int valor=posicoes[linha][coluna].informarOcupacao();
 				retorno.assumirValor(linha, coluna, valor);
 			}
@@ -291,10 +283,38 @@ public class Tabuleiro {
 	}
 
 	public void iniciar() {
-		for(int linha=0; linha<7; linha++) {
-			for(int coluna=0; coluna<7; coluna++) {
-				posicoes[linha][coluna]=new Posicao(linha,coluna);
+		for(int linha = 0; linha < 17; linha++) {
+			for(int coluna = 0; coluna < 13; coluna++) {
+				posicoes[linha][coluna] = new Posicao(linha,coluna);
 			}
 		}
+	}
+	
+	/**
+	 * Retorna a parte ativa do tabuleiro
+	 */
+	public int[][] getPorcaoAtivaTabuleiro()
+	{
+		int[][] ordem = {
+            {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+            {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}
+        };
+
+		return ordem;
 	}
 }
