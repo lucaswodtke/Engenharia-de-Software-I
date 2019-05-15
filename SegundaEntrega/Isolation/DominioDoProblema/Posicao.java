@@ -5,6 +5,7 @@ public class Posicao {
 	protected int ocupante = 0;
 	protected int linha;
 	protected int coluna;
+	private boolean caminhoEncontrado = false;
 	protected Tabuleiro tab = new Tabuleiro();
 
 	public Posicao(int linha, int coluna) {
@@ -34,24 +35,6 @@ public class Posicao {
 		if (x1 == x2 && y1 == y2) {
 			status = false;
 		}
-		
-////		 Verifica se é adjacente
-//		if (x1 == x2) {
-//			if (y2 == y1 + 1 || y2 == y1 - 1) {
-//				status = true;
-//			}
-//		} else if (y2 == y1 || y2 == y1 - 1 || y2 == y1 + 1) {
-//			if (x1 % 2 == 0) {
-//				if ((x2 == x1 - 1 && y2 <= y1) || (x2 == x1 + 1 && y2 <= y1)){
-//					status = true;
-//				}
-//			} else {
-//				if ((x2 == x1 - 1 && y2 >= y1) || (x2 == x1 + 1 && y2 >= y1)){
-//					status = true;
-//				}
-//			}
-//		}
-		
 		
 		// TODO: Verificar se pertence a parte ativa do tabuleiro
 		boolean ocupada = false;
@@ -106,9 +89,6 @@ public class Posicao {
 		return status && posicaoAtiva;
 	}
 	
-	private boolean encontrado = false;
-	private boolean pode = false;
-	
 	/**
 	 * @param x1
 	 * @param y1
@@ -116,7 +96,7 @@ public class Posicao {
 	 * @param y2
 	 * @param maior
 	 */
-	public boolean verificarAdjacente(int x1, int y1, int x2, int y2, boolean maior, Posicao[][] posicoes) {
+	public boolean verificarAdjacente(int x1, int y1, int x2, int y2, boolean maior, Posicao[][] posicoes) { // TODO: quebrar funções
 		boolean status = false;
 		
 //		 Verifica se é adjacente
@@ -136,6 +116,7 @@ public class Posicao {
 			}
 		}
 		
+		// TODO: Colocar, em um array ou lista, se existe caminho entre (x1, y1) e (x2, x2) e depois usar isso para/como o retorno
 		if (!status) {
 			if (maior) {
 				for (int linha = x1; linha <= x2; linha++) {
@@ -145,7 +126,7 @@ public class Posicao {
 							
 							if (valido) {
 								if (linha == x2 && coluna == y2) {
-									encontrado = true;
+									caminhoEncontrado = true;
 									return true;
 								} else {
 									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
@@ -158,7 +139,7 @@ public class Posicao {
 							
 							if (valido) {
 								if (linha == x2 && coluna == y2) {
-									encontrado = true;
+									caminhoEncontrado = true;
 									return true;
 								} else {
 									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
@@ -175,7 +156,7 @@ public class Posicao {
 							
 							if (valido) {
 								if (linha == x2 && coluna == y2) {
-									encontrado = true;
+									caminhoEncontrado = true;
 									return true;
 								} else {
 									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
@@ -188,7 +169,7 @@ public class Posicao {
 							
 							if (valido) {
 								if (linha == x2 && coluna == y2) {
-									encontrado = true;
+									caminhoEncontrado = true;
 									return true;
 								} else {
 									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
@@ -199,11 +180,11 @@ public class Posicao {
 				}
 			}
 		} else {
-			encontrado = true;
+			caminhoEncontrado = true;
 			return true;
 		}
 
-		if (!encontrado) {
+		if (!caminhoEncontrado) {
 			return false;
 		} else {
 			return true;
