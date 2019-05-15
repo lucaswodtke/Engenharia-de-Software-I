@@ -17,12 +17,13 @@ public class AtorNetGames implements OuvidorProxy {
 
 	protected AtorJogador interfaceGrafica;
 	protected Proxy proxy;
-	
-	public AtorNetGames (AtorJogador interfaceGraf){
+
+	public AtorNetGames(AtorJogador interfaceGraf) {
 		super();
+		
 		this.interfaceGrafica = interfaceGraf;
 		this.proxy = Proxy.getInstance();
-		proxy.addOuvinte(this);	
+		proxy.addOuvinte(this);
 	}
 
 	public boolean conectar(String servidor, String nome) {
@@ -47,10 +48,12 @@ public class AtorNetGames implements OuvidorProxy {
 	public boolean desconectar() {
 		try {
 			proxy.desconectar();
+			
 			return true;
 		} catch (NaoConectadoException e) {
 			JOptionPane.showMessageDialog(interfaceGrafica.informarJanela(), e.getMessage());
 			e.printStackTrace();
+			
 			return false;
 		}
 	}
@@ -75,13 +78,14 @@ public class AtorNetGames implements OuvidorProxy {
 
 	public String informarNomeAdversario(String idUsuario) {
 		String aux1 = proxy.obterNomeAdversario(new Integer(1));
-		String aux2 = proxy.obterNomeAdversario(new Integer(2));;
-		if (aux1.equals(idUsuario)){
+		String aux2 = proxy.obterNomeAdversario(new Integer(2));
+		
+		if (aux1.equals(idUsuario)) {
 			return aux2;
 		} else {
 			return aux1;
-		}		
-}
+		}
+	}
 
 	public void receberJogada(Jogada jogada) {
 		Lance estado = (Lance) jogada;
@@ -90,28 +94,25 @@ public class AtorNetGames implements OuvidorProxy {
 
 	public void finalizarPartidaComErro(String message) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void receberMensagem(String msg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void tratarConexaoPerdida() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void tratarPartidaNaoIniciada(String message) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void iniciarNovaPartida(Integer posicao) {
 		interfaceGrafica.iniciarNovaPartida(posicao);
 	}
-	
-
-
 }

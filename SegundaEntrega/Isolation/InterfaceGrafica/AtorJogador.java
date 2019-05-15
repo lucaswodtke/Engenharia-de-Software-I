@@ -3,7 +3,7 @@ package InterfaceGrafica;
 import DominioDoProblema.*;
 import Rede.AtorNetGames;
 
-public class AtorJogador {
+public class AtorJogador implements Constantes {
 
 	protected Tabuleiro tab;
 	protected AtorNetGames rede;
@@ -12,105 +12,137 @@ public class AtorJogador {
 
 	public AtorJogador(InterfaceIsolation jan) {
 		super();
-		rede= new AtorNetGames(this);
-		janela=jan;
-		tab=new Tabuleiro();
+		
+		rede = new AtorNetGames(this);
+		janela = jan;
+		tab = new Tabuleiro();
 		tab.iniciar();
 	}
-	
+
 	public InterfaceIsolation informarJanela() {
 		return this.janela;
 	}
 
 	/**
-	 * 
 	 * @param posicao
 	 */
 	public void iniciarNovaPartida(Integer posicao) {
 		tab.esvaziar();
 		tab.criarJogador(idUsuario);
-		String idJogador=rede.informarNomeAdversario(idUsuario);
+		String idJogador = rede.informarNomeAdversario(idUsuario);
 		tab.criarJogador(idJogador);
 		tab.habilitar(posicao);
 		janela.exibirEstado();
 	}
 
 	public int conectar() {
-		boolean conectado=tab.informarConectado();
-		if(!conectado) {
-			String servidor=janela.obterServidor();
-			idUsuario=janela.obterIdJogador();
-			boolean exito=rede.conectar(servidor, idUsuario);
-			if(exito) {
+		boolean conectado = tab.informarConectado();
+		
+		if (!conectado) {
+			String servidor = janela.obterServidor();
+			idUsuario = janela.obterIdJogador();
+			boolean exito = rede.conectar(servidor, idUsuario);
+			
+			if (exito) {
 				tab.estabelecerConectado(true);
-				return 0;
-			}else {
-				return 2;
+				return SUCESSO_CONEXAO;
+			} else {
+				return ERRO_CONEXAO;
 			}
 		}
-		return 1;
+		
+		return CONEXAO_ESTABELECIDA;
 	}
 
 	public int desconectar() {
-		boolean conectado=tab.informarConectado();
-		if(conectado) {
-			boolean exito=rede.desconectar();
-			if(exito) {
+		boolean conectado = tab.informarConectado();
+		
+		if (conectado) {
+			boolean exito = rede.desconectar();
+			if (exito) {
 				tab.estabelecerConectado(false);
-				return 3;
-			}else {
-				return 5;
+				return DESCONEXAO_SUCESSO;
+			} else {
+				return ERRO_DESCONEXAO;
 			}
-			
 		}
-		return 4;
+		
+		return DESCONEXAO_ESTABELECIDA;
 	}
 
 	public int iniciarPartida() {
-		boolean emAndamento=tab.informarEmAndamento();
-		boolean interromper=false;
-		boolean conectado=false;
-		if(emAndamento) {
-			interromper=avaliarInterrupcao();
-		}else {
-			conectado=tab.informarConectado();
+		boolean emAndamento = tab.informarEmAndamento();
+		boolean interromper = false;
+		boolean conectado = false;
+		
+		if (emAndamento) {
+			interromper = avaliarInterrupcao();
+		} else {
+			conectado = tab.informarConectado();
 		}
-		if(interromper||(!emAndamento&&conectado)) {
+		
+		if (interromper || (!emAndamento && conectado)) {
 			rede.iniciarPartida();
-			return 6;
+			return INICIO_PARTIDA_SUCESSO;
 		}
-		if(!conectado) {
-			return 7;
+		
+		if (!conectado) {
+			return INICIO_PARTIDA_ESTABELECIDA;
 		}
-		return 13;
+		
+		return PARTIDA_NAO_INTERROMPIDA;
 	}
 
 	private boolean avaliarInterrupcao() {
 		return true;
 	}
-
+	
 	/**
-	 * 
 	 * @param linha
 	 * @param coluna
 	 */
-	public int click(int linha, int coluna) {
-		int resultado=tab.click(linha, coluna);
-		if(resultado==9||resultado==10) {
-			enviarJogada(linha, coluna);
+//	public int click(int linha1, int coluna1, int linha2, int coluna2) {
+//		int resultado = tab.click(linha1, coluna1, linha2, coluna2);
+//
+//		if (resultado == LANCE_OK || resultado == PARTIDA_ENCERRADA) {
+//			enviarJogada(linha1, coluna1, linha2, coluna2);
+//		}
+//
+//		return resultado;
+//	}
+	
+	/**
+	 * @param linha
+	 * @param coluna
+	 */
+	public int click(int linha1, int coluna1, int linha2, int coluna2) {
+		int resultado = tab.click(linha1, coluna1, linha2, coluna2);
+
+		if (resultado == LANCE_OK || resultado == PARTIDA_ENCERRADA) {
+			enviarJogada(linha1, coluna1, linha2, coluna2);
 		}
+
 		return resultado;
 	}
 
 	/**
-	 * 
 	 * @param linha
 	 * @param coluna
 	 */
 	public void enviarJogada(int linha, int coluna) {
-		Lance lance=tab.informarJogada(linha, coluna);
+		Lance lance = tab.informarJogada(linha, coluna);
 		rede.enviarJogada(lance);
 	}
+	
+	/**
+	 * @param linha
+	 * @param coluna
+	 */
+	public void enviarJogada(int linha1, int coluna1, int linha2, int coluna2) {
+		Lance lance = tab.informarJogada(linha1, coluna1, linha2, coluna2);
+		rede.enviarJogada(lance);
+	}
+	
 
 	/**
 	 * 
