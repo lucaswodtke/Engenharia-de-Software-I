@@ -19,7 +19,7 @@ import DominioDoProblema.Posicao;
 import DominioDoProblema.Tabuleiro;
 import InterfaceGrafica.AtorJogador;
 
-public class InterfaceIsolation extends JFrame implements Constantes {
+public class InterfaceDamasChinesa extends JFrame implements Constantes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -56,22 +56,22 @@ public class InterfaceIsolation extends JFrame implements Constantes {
 	
 	protected Tabuleiro tab;
 
-	public InterfaceIsolation() throws HeadlessException {
+	public InterfaceDamasChinesa() throws HeadlessException {
 		super();
 		initialize();
 	}
 
-	public InterfaceIsolation(GraphicsConfiguration arg0) {
+	public InterfaceDamasChinesa(GraphicsConfiguration arg0) {
 		super(arg0);
 		initialize();
 	}
 
-	public InterfaceIsolation(String arg0) throws HeadlessException {
+	public InterfaceDamasChinesa(String arg0) throws HeadlessException {
 		super(arg0);
 		initialize();
 	}
 
-	public InterfaceIsolation(String arg0, GraphicsConfiguration arg1) {
+	public InterfaceDamasChinesa(String arg0, GraphicsConfiguration arg1) {
 		super(arg0, arg1);
 		initialize();
 	}

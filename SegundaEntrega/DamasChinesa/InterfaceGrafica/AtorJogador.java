@@ -8,9 +8,9 @@ public class AtorJogador implements Constantes {
 	protected Tabuleiro tab;
 	protected AtorNetGames rede;
 	protected String idUsuario;
-	protected InterfaceIsolation janela;
+	protected InterfaceDamasChinesa janela;
 
-	public AtorJogador(InterfaceIsolation jan) {
+	public AtorJogador(InterfaceDamasChinesa jan) {
 		super();
 		
 		rede = new AtorNetGames(this);
@@ -19,7 +19,7 @@ public class AtorJogador implements Constantes {
 		tab.iniciar();
 	}
 
-	public InterfaceIsolation informarJanela() {
+	public InterfaceDamasChinesa informarJanela() {
 		return this.janela;
 	}
 
