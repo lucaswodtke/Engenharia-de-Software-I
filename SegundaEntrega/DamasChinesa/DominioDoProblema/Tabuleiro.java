@@ -1,6 +1,7 @@
 package DominioDoProblema;
 
 import InterfaceGrafica.Constantes;
+import InterfaceGrafica.InterfaceDamasChinesa;
 
 public class Tabuleiro implements Constantes {
 
@@ -9,6 +10,7 @@ public class Tabuleiro implements Constantes {
 	protected Posicao posicoes[][] = new Posicao[17][13];
 	protected boolean conectado;
 	protected boolean partidaEmAndamento;
+	protected ImagemTabuleiro imagenTab = new ImagemTabuleiro();
 
 	public boolean informarConectado() {
 		return conectado;
@@ -149,18 +151,26 @@ public class Tabuleiro implements Constantes {
 	}
 	
 	/**
+	 * 
+	 * @param antiga
+	 * @param nova
+	 * @param jogador
+	 */
+	public void alterarPosicao(int linha, int coluna, int simbolo)
+	{
+		imagenTab.assumirValor(linha, coluna, simbolo);
+	}
+	
+	/**
 	 * @param linha
 	 * @param coluna
 	 */
 	public int click(int linha1, int coluna1, int linha2, int coluna2) {
-		int resultado;
-		boolean vez;
-
-		vez = jogador1.informarDaVez();
+		boolean vez = jogador1.informarDaVez();
+		int resultado = NAO_EH_VEZ;
+		
 		if (vez) {
 			resultado = tratarLance(linha1, coluna1, linha2, coluna2, jogador1);
-		} else {
-			resultado = NAO_EH_VEZ;
 		}
 
 		return resultado;
@@ -231,7 +241,15 @@ public class Tabuleiro implements Constantes {
 			boolean adjacente = jog.verificarAdjacente(linha1, coluna1, linha2, coluna2, linha2MaiorLinha1, posicoes);
 			
 			if (adjacente) {
+//				jog.atualizar(posicoes[linha2][coluna2]);
+				jog.atualizar(posicoes[linha1][coluna1], posicoes[linha2][coluna2], jog);
+				this.alterarPosicao(linha1, coluna1, 2);
+				this.alterarPosicao(linha2, coluna2, jog.simbolo);
+				
+				// GAMBIARRA
+				posicoes[linha1][coluna1].modOcupacao(3);
 				jog.atualizar(posicoes[linha2][coluna2]);
+				posicoes[linha2][coluna2].modOcupacao(jog.simbolo);
 				
 //				boolean vencedor = verificarVencedor();
 				boolean vencedor = false;
@@ -325,7 +343,6 @@ public class Tabuleiro implements Constantes {
 	}
 
 	public ImagemTabuleiro informarEstado() {
-		ImagemTabuleiro retorno = new ImagemTabuleiro();
 		String mensagem;
 		
 		if (partidaEmAndamento) {
@@ -351,7 +368,7 @@ public class Tabuleiro implements Constantes {
 			}
 		}
 
-		retorno.assumirMensagem(mensagem);
+		imagenTab.assumirMensagem(mensagem);
 
 		int[][] porcaoAtivaTabuleiro = this.getPorcaoAtivaTabuleiro();
 
@@ -360,12 +377,12 @@ public class Tabuleiro implements Constantes {
 				
 				if (porcaoAtivaTabuleiro[linha][coluna] == 1) {
 					int valor = posicoes[linha][coluna].informarOcupacao();
-					retorno.assumirValor(linha, coluna, valor);
+					imagenTab.assumirValor(linha, coluna, valor);
 				}
 			}
 		}
 		
-		return retorno;
+		return imagenTab;
 	}
 
 	public void iniciar() {

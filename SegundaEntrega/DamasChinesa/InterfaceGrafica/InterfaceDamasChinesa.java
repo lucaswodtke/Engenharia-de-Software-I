@@ -35,7 +35,6 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 	private JPanel jContentPane = null;
 
 	protected boolean emRede = false;
-	protected String idJ1 = "";
 
 	private JLabel vPosicao[][] = new JLabel[17][13];
 
@@ -95,8 +94,8 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 			int altura = this.valorInicialY;
 			boolean par = true;
 
-			Icon vazia = new ImageIcon(getClass().getResource("casaVazia.png"));
-			Icon selecionada = new ImageIcon(getClass().getResource("pecaSelecionada.png"));
+			Icon vazia = new ImageIcon(getClass().getResource("/Imagens/casaVazia.png"));
+			Icon selecionada = new ImageIcon(getClass().getResource("/Imagens/pecaSelecionada.png"));
 
 			vMensagem = new JLabel();
 			vMensagem.setBounds(new Rectangle(25, 10, 500, 20));
@@ -114,7 +113,6 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 						vPosicao[x][y].setIcon(vazia);
 					} else {
 						vPosicao[x][y].setIcon(null);
-//						vPosicao[x][y].setIcon(selecionada);
 					}
 
 					int posX = x;
@@ -133,11 +131,11 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 								Icon selecionado = new ImageIcon();
 								
 								if (iconeSelecionado.contains("pecaVermelha")) {
-									selecionado = new ImageIcon(getClass().getResource("pecaVermelhaSelecionada.png"));
+									selecionado = new ImageIcon(getClass().getResource("/Imagens/pecaVermelhaSelecionada.png"));
 								} else if (iconeSelecionado.contains("pecaAzul")) {
-									selecionado = new ImageIcon(getClass().getResource("pecaAzulSelecionada.png"));
+									selecionado = new ImageIcon(getClass().getResource("/Imagens/pecaAzulSelecionada.png"));
 								} else {
-									selecionado = new ImageIcon(getClass().getResource("casaVaziaSelecionada.png"));
+									selecionado = new ImageIcon(getClass().getResource("/Imagens/casaVaziaSelecionada.png"));
 								}
 								
 								mapaVPosicao[posX][posY].setIcon(selecionado);
@@ -151,11 +149,6 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 									mapaVPosicao[posicaoXY[0][0]][posicaoXY[0][1]].setIcon(posicaoAnterior[posicaoXY[0][0]][posicaoXY[0][1]]);
 								} else {
 									click(posicaoXY[0][0], posicaoXY[0][1], posX, posY);
-									
-									// REMOVER DAQUI PRA BAIXO
-//									Posicao p = new Posicao(posicaoXY[0][0],posicaoXY[0][1]);
-//									boolean maior = (posX > posicaoXY[0][0]);
-//									System.out.println(p.verificarAdjacente(posicaoXY[0][0], posicaoXY[0][1], posX, posY, maior));
 								}
 							}
 						}
@@ -345,9 +338,9 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 
 		vMensagem.setText(estado.informarMensagem());
 
-		Icon vermelha = new ImageIcon(getClass().getResource("pecaVermelha.png"));
-		Icon azul = new ImageIcon(getClass().getResource("pecaAzul.png"));
-		Icon vazia = new ImageIcon(getClass().getResource("casaVazia.png"));
+		Icon vermelha = new ImageIcon(getClass().getResource("/Imagens/pecaVermelha.png"));
+		Icon azul = new ImageIcon(getClass().getResource("/Imagens/pecaAzul.png"));
+		Icon vazia = new ImageIcon(getClass().getResource("/Imagens/casaVazia.png"));
 
 
 		for (int linha = 0; linha < 17; linha++) {
@@ -366,7 +359,9 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 				case 2:
 					mapaVPosicao[linha][coluna].setIcon(azul);
 					break;
-
+				case 3:
+					mapaVPosicao[linha][coluna].setIcon(vazia);
+					break;
 				}
 			};
 		};

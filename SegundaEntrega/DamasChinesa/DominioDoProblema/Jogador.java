@@ -64,6 +64,15 @@ public class Jogador {
 		}
 	}
 	
+	/**
+	 * @param nova
+	 */
+	public void atualizar(Posicao antiga, Posicao nova, Jogador jog) {
+		jog.ocupando = nova;
+		antiga.ocupante = 0;
+		nova.ocupante = jog.simbolo;
+	}
+	
 	public void mudarFase() {
 		if (this.fase == 1) {
 			this.fase = 0;

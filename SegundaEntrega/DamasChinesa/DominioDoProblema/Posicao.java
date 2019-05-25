@@ -170,7 +170,7 @@ public class Posicao {
 	}
 
 	public void esvaziar() {
-//		this.ocupante=0;
+//		this.ocupante = 0;
 	}
 
 	public int informarOcupacao() {
