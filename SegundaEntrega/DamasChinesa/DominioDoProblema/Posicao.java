@@ -21,7 +21,7 @@ public class Posicao {
 	 * @param linhaAdj
 	 * @param colunaAdj
 	 */
-	public boolean verificarAdjacente(int linhaAdj1, int colunaAdj1, int linhaAdj2, int colunaAdj2, Posicao[][] posicoes) {
+	public boolean verificarCaminho(int linhaAdj1, int colunaAdj1, int linhaAdj2, int colunaAdj2, Posicao[][] posicoes) {
 		int x1 = linhaAdj1;
 		int y1 = colunaAdj1;
 		int x2 = linhaAdj2;
@@ -118,62 +118,33 @@ public class Posicao {
 		
 		// TODO: Colocar, em um array ou lista, se existe caminho entre (x1, y1) e (x2, x2) e depois usar isso para/como o retorno
 		if (!status) {
-			if (maior) {
-				for (int linha = x1; linha <= x2; linha++) {
-					if (y2 >= y1) {
-						for (int coluna = y1; coluna <= y2; coluna++) {
-							boolean valido = this.verificarAdjacente(x1, y1, linha, coluna, posicoes);
-							
-							if (valido) {
-								if (linha == x2 && coluna == y2) {
-									caminhoEncontrado = true;
-									return true;
-								} else {
-									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
-								}
-							}
-						}
-					} else {
-						for (int coluna = y1; coluna >= y2; coluna--) {
-							boolean valido = this.verificarAdjacente(x1, y1, linha, coluna, posicoes);
-							
-							if (valido) {
-								if (linha == x2 && coluna == y2) {
-									caminhoEncontrado = true;
-									return true;
-								} else {
-									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
-								}
+			
+			int um = maior ? 1 : -1;
+			
+			for (int linha = x1; linha <= x2; linha += um) {
+				if (y2 >= y1) {
+					for (int coluna = y1; coluna <= y2; coluna++) {
+						boolean valido = this.verificarCaminho(x1, y1, linha, coluna, posicoes);
+						
+						if (valido) {
+							if (linha == x2 && coluna == y2) {
+								caminhoEncontrado = true;
+								return true;
+							} else {
+								this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
 							}
 						}
 					}
-				}
-			} else {
-				for (int linha = x1; linha >= x2; linha--) {
-					if (y2 >= y1) {
-						for (int coluna = y1; coluna <= y2; coluna++) {
-							boolean valido = this.verificarAdjacente(x1, y1, linha, coluna, posicoes);
-							
-							if (valido) {
-								if (linha == x2 && coluna == y2) {
-									caminhoEncontrado = true;
-									return true;
-								} else {
-									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
-								}
-							}
-						}
-					} else {
-						for (int coluna = y1; coluna >= y2; coluna--) {
-							boolean valido = this.verificarAdjacente(x1, y1, linha, coluna, posicoes);
-							
-							if (valido) {
-								if (linha == x2 && coluna == y2) {
-									caminhoEncontrado = true;
-									return true;
-								} else {
-									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
-								}
+				} else {
+					for (int coluna = y1; coluna >= y2; coluna--) {
+						boolean valido = this.verificarCaminho(x1, y1, linha, coluna, posicoes);
+						
+						if (valido) {
+							if (linha == x2 && coluna == y2) {
+								caminhoEncontrado = true;
+								return true;
+							} else {
+								this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
 							}
 						}
 					}

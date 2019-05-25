@@ -39,7 +39,6 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 
 	private JLabel vPosicao[][] = new JLabel[17][13];
 
-//	protected JLabel mapaVPosicao[][] = new JLabel[7][7];
 	protected JLabel mapaVPosicao[][] = new JLabel[17][13];
 
 	private JMenuBar jMenuBar1 = null;
@@ -98,7 +97,6 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 
 			Icon vazia = new ImageIcon(getClass().getResource("casaVazia.png"));
 			Icon selecionada = new ImageIcon(getClass().getResource("pecaSelecionada.png"));
-//			Icon verm = new ImageIcon(getClass().getResource("pecaVermelha.png"));
 
 			vMensagem = new JLabel();
 			vMensagem.setBounds(new Rectangle(25, 10, 500, 20));
@@ -115,8 +113,8 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 					if (ordem[x][y] == 1) {
 						vPosicao[x][y].setIcon(vazia);
 					} else {
-//						vPosicao[x][y].setIcon(null);
-						vPosicao[x][y].setIcon(selecionada);
+						vPosicao[x][y].setIcon(null);
+//						vPosicao[x][y].setIcon(selecionada);
 					}
 
 					int posX = x;
@@ -130,8 +128,19 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 								posicaoXY[0][1] = posY;
 
 								posicaoAnterior[posX][posY] = mapaVPosicao[posX][posY].getIcon();
-								mapaVPosicao[posX][posY].setIcon(selecionada);	
-//								mapaVPosicao[posX][posY].setIcon(verm);	
+								
+								String iconeSelecionado = posicaoAnterior[posicaoXY[0][0]][posicaoXY[0][1]].toString();
+								Icon selecionado = new ImageIcon();
+								
+								if (iconeSelecionado.contains("pecaVermelha")) {
+									selecionado = new ImageIcon(getClass().getResource("pecaVermelhaSelecionada.png"));
+								} else if (iconeSelecionado.contains("pecaAzul")) {
+									selecionado = new ImageIcon(getClass().getResource("pecaAzulSelecionada.png"));
+								} else {
+									selecionado = new ImageIcon(getClass().getResource("casaVaziaSelecionada.png"));
+								}
+								
+								mapaVPosicao[posX][posY].setIcon(selecionado);
 							} else {
 								posicaoSelecionada = false;
 
