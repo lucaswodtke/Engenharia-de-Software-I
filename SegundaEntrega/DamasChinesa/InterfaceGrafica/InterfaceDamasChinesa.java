@@ -115,8 +115,7 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 					if (ordem[x][y] == 1) {
 						vPosicao[x][y].setIcon(vazia);
 					} else {
-//						vPosicao[x][y].setIcon(null);
-						vPosicao[x][y].setIcon(selecionada);
+						vPosicao[x][y].setIcon(null);
 					}
 
 					int posX = x;
@@ -130,8 +129,7 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 								posicaoXY[0][1] = posY;
 
 								posicaoAnterior[posX][posY] = mapaVPosicao[posX][posY].getIcon();
-								mapaVPosicao[posX][posY].setIcon(selecionada);	
-//								mapaVPosicao[posX][posY].setIcon(verm);	
+								mapaVPosicao[posX][posY].setIcon(selecionada);
 							} else {
 								posicaoSelecionada = false;
 
@@ -142,11 +140,6 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 									mapaVPosicao[posicaoXY[0][0]][posicaoXY[0][1]].setIcon(posicaoAnterior[posicaoXY[0][0]][posicaoXY[0][1]]);
 								} else {
 									click(posicaoXY[0][0], posicaoXY[0][1], posX, posY);
-									
-									// REMOVER DAQUI PRA BAIXO
-//									Posicao p = new Posicao(posicaoXY[0][0],posicaoXY[0][1]);
-//									boolean maior = (posX > posicaoXY[0][0]);
-//									System.out.println(p.verificarAdjacente(posicaoXY[0][0], posicaoXY[0][1], posX, posY, maior));
 								}
 							}
 						}
@@ -237,13 +230,13 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 
 	public String obterServidor() {
 		String idServidor = ("netgames.labsoft.ufsc.br");
-//		idServidor = JOptionPane.showInputDialog(this, ("Insira o endereço do servidor"), idServidor);
+		idServidor = JOptionPane.showInputDialog(this, ("Insira o endereço do servidor"), idServidor);
 		return idServidor;
 	}
 
 	public String obterIdJogador() {
 		String idJogador = ("jogador");
-//		idJogador = JOptionPane.showInputDialog(this, ("Insira o nome do jogador"));
+		idJogador = JOptionPane.showInputDialog(this, ("Insira o nome do jogador"));
 		return idJogador;
 	}
 
