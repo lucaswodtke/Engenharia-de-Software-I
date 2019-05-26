@@ -169,7 +169,12 @@ public class Tabuleiro implements Constantes {
 		boolean vez = jogador1.informarDaVez();
 		int resultado = NAO_EH_VEZ;
 		
-		if (vez) {
+		int pecaSelecionada = imagenTab.informarValor(linha1, coluna1);
+		int pecaJogador = jogador1.informarSimbolo();
+		
+		if (pecaSelecionada != pecaJogador) {
+			resultado = PECA_INVALIDA;
+		} else if (vez) {
 			resultado = tratarLance(linha1, coluna1, linha2, coluna2, jogador1);
 		}
 

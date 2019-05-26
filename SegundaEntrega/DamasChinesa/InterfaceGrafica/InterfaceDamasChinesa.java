@@ -148,11 +148,8 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 									posicaoXY[1][0] = posX;
 									posicaoXY[1][1] = posY;
 	
-									if ((posicaoXY[0][0] == posX) && (posicaoXY[0][1] == posY)) {
-										mapaVPosicao[posicaoXY[0][0]][posicaoXY[0][1]].setIcon(posicaoAnterior[posicaoXY[0][0]][posicaoXY[0][1]]);
-									} else {
-										click(posicaoXY[0][0], posicaoXY[0][1], posX, posY);
-									}
+									mapaVPosicao[posicaoXY[0][0]][posicaoXY[0][1]].setIcon(posicaoAnterior[posicaoXY[0][0]][posicaoXY[0][1]]);
+									click(posicaoXY[0][0], posicaoXY[0][1], posX, posY);
 								}
 							}
 						}
@@ -278,7 +275,6 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 			break;
 		case INICIO_PARTIDA_SUCESSO:
 			JOptionPane.showMessageDialog(this, "Solicitação de inicio procedida com sucesso!");
-			this.emRede = true;
 			break;
 		case INICIO_PARTIDA_ESTABELECIDA:
 			JOptionPane.showMessageDialog(this, "Tentativa de inicio sem conexao previamente estabelecida");
@@ -300,6 +296,9 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 			break;
 		case PARTIDA_NAO_INTERROMPIDA:
 			JOptionPane.showMessageDialog(this, "Partida corrente não interrompida");
+			break;
+		case PECA_INVALIDA:
+			JOptionPane.showMessageDialog(this, "A peça selecionada não pertence a você");
 			break;
 		};
 	}

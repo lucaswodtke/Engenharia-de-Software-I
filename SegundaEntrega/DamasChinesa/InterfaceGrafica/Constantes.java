@@ -15,4 +15,5 @@ public interface Constantes {
 	final int POSICAO_OCUPADA = 11;
 	final int POSICAO_ILEGAL = 12;
 	final int PARTIDA_NAO_INTERROMPIDA = 13;
+	final int PECA_INVALIDA = 14;
 }

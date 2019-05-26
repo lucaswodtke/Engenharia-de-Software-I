@@ -41,16 +41,16 @@ public class Posicao {
 		if (x2 > x1) {
 			System.out.println("X2 > X1");
 			if (y2 > y1) {
-				System.out.println("Y2 > Y1");
+				System.out.println("Y2 > Y1: " + (x1+1));
 				ocupada = posicoes[x1+1][y2].verificarOcupada();
-				if (x1+1 == 4 || x1+1 == 12) {
+				if (x1+1 == 4 || x1+1 == 12 || (x1+1)%2 == 0) {
 					System.out.println("1");
 					ocupada = posicoes[x1+1][y1].verificarOcupada();
 				}
 			} else {
-				System.out.println("Y2 < Y1");
+				System.out.println("Y2 < Y1: " + (x1+1));
 				ocupada = posicoes[x1+1][y1-1].verificarOcupada();
-				if (x1+1 == 4 || x1+1 == 12) {
+				if (x1+1 == 4 || x1+1 == 12 || (x1+1)%2 == 0) {
 					System.out.println("2");
 					ocupada = posicoes[x1+1][y1].verificarOcupada();
 				}
@@ -58,16 +58,16 @@ public class Posicao {
 		} else {
 			System.out.println("X2 < X1");
 			if (y2 > y1) {
-				System.out.println("Y2 < Y1");
+				System.out.println("Y2 > Y1: " + (x1-1));
 				ocupada = posicoes[x1-1][y2].verificarOcupada();
-				if (x1-1 == 4 || x1-1 == 8 || x1-1 == 12) {
+				if (x1-1 == 4 || x1-1 == 8 || x1-1 == 12 || x1-1 == 13 || (x1-1)%2 == 0) {
 					System.out.println("3");
 					ocupada = posicoes[x1-1][y1].verificarOcupada();
 				}
 			} else {
-				System.out.println("Y2 < Y1");
+				System.out.println("Y2 < Y1: " + (x1-1));
 				ocupada = posicoes[x1-1][y1-1].verificarOcupada();
-				if (x1-1 == 4 || x1-1 == 8 || x1-1 == 12) {
+				if (x1-1 == 4 || x1-1 == 8 || x1-1 == 12 || x1-1 == 13 || (x1-1)%2 == 0) {
 					System.out.println("4");
 					ocupada = posicoes[x1-1][y1].verificarOcupada();
 				}
@@ -78,16 +78,22 @@ public class Posicao {
 		// Verifica se existe uma posição livre pulando por cima de UMA UNICA outra peça
 		if (x1 == x2) {		
 			if ((y2 == y1 + 1 || y2 == y1 - 1) && ocupada) {
-				status = true;
+				if (status == false) {
+					status = true;
+				}
 			}
 		} else if ((y2 == y1 - 1 || y2 == y1 + 1) && ocupada) {
 			if (x1 % 2 == 0) {
 				if ((x2 == x1 - 2 && y2 > y1) || (x2 == x1 - 2 && y2 < y1) || (x2 == x1 + 2 && y2 > y1) || (x2 == x1 + 2 && y2 < y1)){
-					status = true;
+					if (status == false) {
+						status = true;
+					}
 				}
 			} else {
 				if ((x2 == x1 - 2 && y2 < y1) || (x2 == x1 - 2 && y2 > y1) || (x2 == x1 + 2 && y2 < y1) || (x2 == x1 + 2 && y2 > y1)){
-					status = true;
+					if (status == false) {
+						status = true;
+					}
 				}
 			}
 		}
@@ -125,34 +131,64 @@ public class Posicao {
 		// TODO: Colocar, em um array ou lista, se existe caminho entre (x1, y1) e (x2, x2) e depois usar isso para/como o retorno
 		if (!status) {
 			
-			int um = maior ? 1 : -1;
-			
-			System.out.println("UM: " + um);
-			
-			for (int linha = x1; linha <= x2; linha += um) {
-				if (y2 >= y1) {
-					for (int coluna = y1; coluna <= y2; coluna++) {
-						boolean valido = this.verificarCaminho(x1, y1, linha, coluna, posicoes);
-						
-						if (valido) {
-							if (linha == x2 && coluna == y2) {
-								caminhoEncontrado = true;
-								return true;
-							} else {
-								this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
+			if (maior) {
+				System.out.println("MAIOR");
+				for (int linha = x1; linha <= x2; linha++) {
+					if (y2 >= y1) {
+						for (int coluna = y1; coluna <= y2; coluna++) {
+							boolean valido = this.verificarCaminho(x1, y1, linha, coluna, posicoes);
+							
+							if (valido) {
+								if (linha == x2 && coluna == y2) {
+									caminhoEncontrado = true;
+									return true;
+								} else {
+									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
+								}
+							}
+						}
+					} else {
+						for (int coluna = y1; coluna >= y2; coluna--) {
+							boolean valido = this.verificarCaminho(x1, y1, linha, coluna, posicoes);
+							
+							if (valido) {
+								if (linha == x2 && coluna == y2) {
+									caminhoEncontrado = true;
+									return true;
+								} else {
+									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
+								}
 							}
 						}
 					}
-				} else {
-					for (int coluna = y1; coluna >= y2; coluna--) {
-						boolean valido = this.verificarCaminho(x1, y1, linha, coluna, posicoes);
-						
-						if (valido) {
-							if (linha == x2 && coluna == y2) {
-								caminhoEncontrado = true;
-								return true;
-							} else {
-								this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
+				}
+			} else {
+				System.out.println("MENOR");
+				for (int linha = x1; linha >= x2; linha--) {
+					if (y2 >= y1) {
+						for (int coluna = y1; coluna <= y2; coluna++) {
+							boolean valido = this.verificarCaminho(x1, y1, linha, coluna, posicoes);
+							
+							if (valido) {
+								if (linha == x2 && coluna == y2) {
+									caminhoEncontrado = true;
+									return true;
+								} else {
+									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
+								}
+							}
+						}
+					} else {
+						for (int coluna = y1; coluna >= y2; coluna--) {
+							boolean valido = this.verificarCaminho(x1, y1, linha, coluna, posicoes);
+							
+							if (valido) {
+								if (linha == x2 && coluna == y2) {
+									caminhoEncontrado = true;
+									return true;
+								} else {
+									this.verificarAdjacente(linha, coluna, x2, y2, maior, posicoes);
+								}
 							}
 						}
 					}
