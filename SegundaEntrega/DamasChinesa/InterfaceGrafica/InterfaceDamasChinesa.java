@@ -18,6 +18,7 @@ import DominioDoProblema.ImagemTabuleiro;
 import DominioDoProblema.Posicao;
 import DominioDoProblema.Tabuleiro;
 import InterfaceGrafica.AtorJogador;
+import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
 
 public class InterfaceDamasChinesa extends JFrame implements Constantes {
 
@@ -112,43 +113,46 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 					if (ordem[x][y] == 1) {
 						vPosicao[x][y].setIcon(vazia);
 					} else {
-						vPosicao[x][y].setIcon(null);
+//						vPosicao[x][y].setIcon(null);
+						vPosicao[x][y].setIcon(selecionada);
 					}
 
 					int posX = x;
 					int posY = y;
 					vPosicao[x][y].addMouseListener(new java.awt.event.MouseAdapter() {
 						public void mouseClicked(java.awt.event.MouseEvent e) {
-							if (!posicaoSelecionada) {
-								posicaoSelecionada = true;
-
-								posicaoXY[0][0] = posX;
-								posicaoXY[0][1] = posY;
-
-								posicaoAnterior[posX][posY] = mapaVPosicao[posX][posY].getIcon();
-								
-								String iconeSelecionado = posicaoAnterior[posicaoXY[0][0]][posicaoXY[0][1]].toString();
-								Icon selecionado = new ImageIcon();
-								
-								if (iconeSelecionado.contains("pecaVermelha")) {
-									selecionado = new ImageIcon(getClass().getResource("/Imagens/pecaVermelhaSelecionada.png"));
-								} else if (iconeSelecionado.contains("pecaAzul")) {
-									selecionado = new ImageIcon(getClass().getResource("/Imagens/pecaAzulSelecionada.png"));
+							if (true) {
+								if (!posicaoSelecionada) {
+									posicaoSelecionada = true;
+	
+									posicaoXY[0][0] = posX;
+									posicaoXY[0][1] = posY;
+	
+									posicaoAnterior[posX][posY] = mapaVPosicao[posX][posY].getIcon();
+									
+									String iconeSelecionado = posicaoAnterior[posicaoXY[0][0]][posicaoXY[0][1]].toString();
+									Icon selecionado = new ImageIcon();
+									
+									if (iconeSelecionado.contains("pecaVermelha")) {
+										selecionado = new ImageIcon(getClass().getResource("/Imagens/pecaVermelhaSelecionada.png"));
+									} else if (iconeSelecionado.contains("pecaAzul")) {
+										selecionado = new ImageIcon(getClass().getResource("/Imagens/pecaAzulSelecionada.png"));
+									} else {
+										selecionado = new ImageIcon(getClass().getResource("/Imagens/casaVaziaSelecionada.png"));
+									}
+									
+									mapaVPosicao[posX][posY].setIcon(selecionado);
 								} else {
-									selecionado = new ImageIcon(getClass().getResource("/Imagens/casaVaziaSelecionada.png"));
-								}
-								
-								mapaVPosicao[posX][posY].setIcon(selecionado);
-							} else {
-								posicaoSelecionada = false;
-
-								posicaoXY[1][0] = posX;
-								posicaoXY[1][1] = posY;
-
-								if ((posicaoXY[0][0] == posX) && (posicaoXY[0][1] == posY)) {
-									mapaVPosicao[posicaoXY[0][0]][posicaoXY[0][1]].setIcon(posicaoAnterior[posicaoXY[0][0]][posicaoXY[0][1]]);
-								} else {
-									click(posicaoXY[0][0], posicaoXY[0][1], posX, posY);
+									posicaoSelecionada = false;
+	
+									posicaoXY[1][0] = posX;
+									posicaoXY[1][1] = posY;
+	
+									if ((posicaoXY[0][0] == posX) && (posicaoXY[0][1] == posY)) {
+										mapaVPosicao[posicaoXY[0][0]][posicaoXY[0][1]].setIcon(posicaoAnterior[posicaoXY[0][0]][posicaoXY[0][1]]);
+									} else {
+										click(posicaoXY[0][0], posicaoXY[0][1], posX, posY);
+									}
 								}
 							}
 						}
@@ -274,6 +278,7 @@ public class InterfaceDamasChinesa extends JFrame implements Constantes {
 			break;
 		case INICIO_PARTIDA_SUCESSO:
 			JOptionPane.showMessageDialog(this, "Solicitação de inicio procedida com sucesso!");
+			this.emRede = true;
 			break;
 		case INICIO_PARTIDA_ESTABELECIDA:
 			JOptionPane.showMessageDialog(this, "Tentativa de inicio sem conexao previamente estabelecida");

@@ -14,7 +14,7 @@ public class Posicao {
 	}
 
 	public boolean verificarOcupada() {
-		return ocupante != 0;
+		return ocupante != 0 && ocupante != 3;
 	}
 	
 	/**
@@ -39,13 +39,16 @@ public class Posicao {
 		// TODO: Verificar se pertence a parte ativa do tabuleiro
 		boolean ocupada = false;
 		if (x2 > x1) {
+			System.out.println("X2 > X1");
 			if (y2 > y1) {
+				System.out.println("Y2 > Y1");
 				ocupada = posicoes[x1+1][y2].verificarOcupada();
 				if (x1+1 == 4 || x1+1 == 12) {
 					System.out.println("1");
 					ocupada = posicoes[x1+1][y1].verificarOcupada();
 				}
 			} else {
+				System.out.println("Y2 < Y1");
 				ocupada = posicoes[x1+1][y1-1].verificarOcupada();
 				if (x1+1 == 4 || x1+1 == 12) {
 					System.out.println("2");
@@ -53,13 +56,16 @@ public class Posicao {
 				}
 			}
 		} else {
+			System.out.println("X2 < X1");
 			if (y2 > y1) {
+				System.out.println("Y2 < Y1");
 				ocupada = posicoes[x1-1][y2].verificarOcupada();
 				if (x1-1 == 4 || x1-1 == 8 || x1-1 == 12) {
 					System.out.println("3");
 					ocupada = posicoes[x1-1][y1].verificarOcupada();
 				}
 			} else {
+				System.out.println("Y2 < Y1");
 				ocupada = posicoes[x1-1][y1-1].verificarOcupada();
 				if (x1-1 == 4 || x1-1 == 8 || x1-1 == 12) {
 					System.out.println("4");
@@ -120,6 +126,8 @@ public class Posicao {
 		if (!status) {
 			
 			int um = maior ? 1 : -1;
+			
+			System.out.println("UM: " + um);
 			
 			for (int linha = x1; linha <= x2; linha += um) {
 				if (y2 >= y1) {

@@ -150,16 +150,16 @@ public class Tabuleiro implements Constantes {
 		posicoes[13][7].modOcupacao(peca2);
 	}
 	
-	/**
-	 * 
-	 * @param antiga
-	 * @param nova
-	 * @param jogador
-	 */
-	public void alterarPosicao(int linha, int coluna, int simbolo)
-	{
-		imagenTab.assumirValor(linha, coluna, simbolo);
-	}
+//	/**
+//	 * 
+//	 * @param antiga
+//	 * @param nova
+//	 * @param jogador
+//	 */
+//	public void alterarPosicao(int linha, int coluna, int simbolo)
+//	{
+//		imagenTab.assumirValor(linha, coluna, simbolo);
+//	}
 	
 	/**
 	 * @param linha
@@ -234,20 +234,18 @@ public class Tabuleiro implements Constantes {
 		boolean ocupada = posicoes[linha2][coluna2].verificarOcupada();
 		int[][] porcaoAtivaTabuleiro = this.getPorcaoAtivaTabuleiro();
 
-		if (ocupada || porcaoAtivaTabuleiro[linha2][coluna2] == 0) {
+		if (ocupada) {
 			resultado = POSICAO_OCUPADA;
+		} else if (porcaoAtivaTabuleiro[linha2][coluna2] == 0) {
+			resultado = POSICAO_ILEGAL;
 		} else {
 			boolean linha2MaiorLinha1 = linha2 > linha1;
 			boolean adjacente = jog.verificarAdjacente(linha1, coluna1, linha2, coluna2, linha2MaiorLinha1, posicoes);
 			
 			if (adjacente) {
-//				jog.atualizar(posicoes[linha2][coluna2]);
-				jog.atualizar(posicoes[linha1][coluna1], posicoes[linha2][coluna2], jog);
-				this.alterarPosicao(linha1, coluna1, 2);
-				this.alterarPosicao(linha2, coluna2, jog.simbolo);
-				
-				// GAMBIARRA
+				jog.atualizar(posicoes[linha1][coluna1]);
 				posicoes[linha1][coluna1].modOcupacao(3);
+				
 				jog.atualizar(posicoes[linha2][coluna2]);
 				posicoes[linha2][coluna2].modOcupacao(jog.simbolo);
 				
